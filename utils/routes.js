@@ -1,0 +1,3 @@
+export const DECKS_VIEW = 'DECKS_VIEW'
+export const SINGLE_DECK_VIEW = 'SIGNEL_DECK_VIEW'
+export const NEW_DECK_VIEW = 'NEW_DECK_VIEW'
