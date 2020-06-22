@@ -5,6 +5,7 @@ import {red,black,white,gray,lightPurp} from '../utils/colors'
 import { useNavigation } from '@react-navigation/native';
 import {DECKS_VIEW} from '../utils/routes'
 
+
 function CreateDeckButton(props){
 	const text = props.deckTitle
 	const navigation = useNavigation();
@@ -13,7 +14,10 @@ function CreateDeckButton(props){
 		if (text === ''){
 			console.log('empty')
 		}
-		navigation.navigate(DECKS_VIEW)
+		else{
+			saveDeckTitle(text).then(navigation.navigate(DECKS_VIEW), 
+				/*props.dispatch(addDeck(([text]:{ title:text, questions:[]}) ))*/)
+		}  
 	}
 
 	return(
@@ -33,10 +37,6 @@ class NewDeckView extends Component{
 		deckTitle:''
 	}
 	
-	/*handleAddDeck = () =>{
-		saveDeckTitle('Algebra 2')
-	}*/
-
 	handleChange = (event)=>{
 		this.setState({deckTitle:event})
 	}
@@ -57,7 +57,7 @@ class NewDeckView extends Component{
 			    />
 			    
 			    <View style={styles.container}>
-					<CreateDeckButton deckTitle={this.state.deckTitle}/>
+					<CreateDeckButton deckTitle={this.state.deckTitle} dispatch={this.props.dispatch}/>
 				</View>
 
 			</View>

@@ -1,5 +1,5 @@
 import { AsyncStorage } from 'react-native'
-export const DECKS_STORAGE_KEY = '@mobile-flashcards:decks'
+export const DECKS_STORAGE_KEY = 'mobile-flashcards:decks'
 
 
 const newDeckWithTitle = (title)=> {
@@ -9,11 +9,26 @@ const newDeckWithTitle = (title)=> {
   }
 }
 
+/*
+Object {
+  "Burgers": Object {
+    "questions": Array [],
+    "results": Array [],
+    "title": "Burgers",
+  },
+  "Cookies": Object {
+    "questions": Array [],
+    "results": Array [],
+    "title": "Cookies",
+  },
+}*/
+
+
 
 
 
 export function getDecks(){
-  return AsyncStorage.getItem(DECKS_STORAGE_KEY)
+  return AsyncStorage.getItem(DECKS_STORAGE_KEY).then(results=>JSON.parse(results))
 }
 
 export function getDeck(key){
@@ -23,8 +38,8 @@ export function getDeck(key){
 export function saveDeckTitle(title){  //this func saves title of deck and key onto decks storage
   
   const deck = newDeckWithTitle(title) // new deck 
-
-  return AsyncStorage.setItem(  DECKS_STORAGE_KEY, JSON.stringify({
+    
+  return AsyncStorage.mergeItem(  DECKS_STORAGE_KEY, JSON.stringify({
     [title]: deck
   }) )
   
@@ -46,7 +61,28 @@ export function addCardToDeck(title,card){
 
 
 
+/*
 
+export function initData(){
+  return (dispatch)=>{
+    
+    return getInitialData().then(({decks})=>{
+      dispatch(receiveDecks(decks))
+    })
+  }
+}
+
+
+
+export function getInitialData () {
+  return Promise.all([
+    getDecks(),
+  ]).then(([decks]) => ({
+    decks,
+  }))
+}
+
+*/
 
 /*
 
