@@ -21,8 +21,6 @@ import { AntDesign } from '@expo/vector-icons'
 
 const RootStack = createStackNavigator();
 
-
-
 export default function Home() { 
 
   return (

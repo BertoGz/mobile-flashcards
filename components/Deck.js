@@ -8,23 +8,22 @@ import {SINGLE_DECK_VIEW} from '../utils/routes'
 export default function Deck ({item}){
 
 
-	 handlePressDeck = (key) => (event) => {
-    	const navigation = useNavigation()
-    	navigation.navigate(SINGLE_DECK_VIEW)
+
+	handleClick=()=>{
+		const navigation = useNavigation();
 	}
 
-
-	return 	
-		(
+	return 	(
 			<View key={item}>
 				<View style={styles.deck}>
-				<TouchableOpacity key={item} onPress={this.handlePressDeck(item)} >
+				<TouchableOpacity key={item} onPress={handleClick} >
 				<Text key={item} style={styles.deckTitle}>{item.title}</Text>
 				</TouchableOpacity>
 				<Text key={item+'1'} style={{fontSize:16}}>{item.questions.length} cards</Text>
 				</View>
 			</View>
 		)
+
 }
 
 

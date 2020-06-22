@@ -5,7 +5,6 @@ import {red,lightPurp,gray,black} from '../utils/colors'
 import {connect} from 'react-redux'
 import {getDecks} from '../utils/api'
 import {receiveDecks} from '../actions/decks'
-import {SINGLE_DECK_VIEW} from '../utils/routes'
 import Deck from './Deck'
 
 
@@ -26,7 +25,6 @@ class DeckView extends Component{
 
 
 	render(){
-
 		
 		const decks=this.props.decksReducer
 	
@@ -37,6 +35,7 @@ class DeckView extends Component{
 
 		return(
 			<View style={styles.decksContainer}>
+			<Text>decks</Text>
 				<FlatList data={Object.values(decks)} renderItem={Deck}/>
 
 			</View>
