@@ -4,19 +4,18 @@ import {red,lightPurp,gray,black} from '../utils/colors'
 
 import { useNavigation } from '@react-navigation/native';
 import {SINGLE_DECK_VIEW} from '../utils/routes'
-export default function Deck({item}){
 
-	handlePressDeck = (key) => (event) => {
+const Deck = ({item})=>{
 
-		const navigation = useNavigation()
-		navigation.navigate(SINGLE_DECK_VIEW)
-   	}
 
+	const navigation = useNavigation();
 
 	return 	(
 			<View key={item}>
 				<View style={styles.deck}>
-				<TouchableOpacity key={item} onPress={this.handlePressDeck(item)} >
+				<TouchableOpacity key={item} onPress={() =>
+          navigation.navigate(SINGLE_DECK_VIEW)
+        } >
 				<Text key={item} style={styles.deckTitle}>{item.title}</Text>
 				</TouchableOpacity>
 				<Text key={item+'1'} style={{fontSize:16}}>{item.questions.length} cards</Text>
@@ -25,6 +24,7 @@ export default function Deck({item}){
 		)
 
 }
+export default Deck
 
 const styles=StyleSheet.create({
 	deck:{
