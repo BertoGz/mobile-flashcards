@@ -1,4 +1,4 @@
-import {RECEIVE_DECKS,ADD_DECK} from '../actions'
+import {RECEIVE_DECKS,ADD_DECK,ADD_CARD} from '../actions/decks'
 
 
 
@@ -12,9 +12,25 @@ function decksReducer(state={},action){
 		}
 
 		case ADD_DECK:
+		
+			
+			const newDeck = {[action.deck]:{
+				title:action.deck,
+				questions:[]
+			}}
 		return {
 			...state,
-			...action.deck,
+			...newDeck
+		}
+
+		case ADD_CARD:
+		const {question,answer}=action.card
+		return{
+			...state,
+			[deck]:{
+				...state[deck],
+				questions:[...state[deck].questions,{question,answer}]
+			}
 		}
 
 		default: return state

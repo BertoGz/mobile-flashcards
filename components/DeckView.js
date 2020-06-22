@@ -1,7 +1,10 @@
 import React,{Component} from 'react'
-import {Text,View, StyleSheet, FlatList} from 'react-native'
-import {saveDeckTitle,getDecks} from '../utils/api'
+import {Text,View, StyleSheet, FlatList, TouchableOpacity} from 'react-native'
 import {red,lightPurp,gray,black} from '../utils/colors'
+
+import {connect} from 'react-redux'
+import {getDecks} from '../utils/api'
+import {receiveDecks} from '../actions/decks'
 
 
 class DeckView extends Component{
@@ -11,19 +14,27 @@ class DeckView extends Component{
 	}
 
 	componentDidMount(){
-		getDecks().then(results=>{this.setState({data:results}), console.log(results)})
+		//getDecks().then(results=>{this.setState({data:results}), console.log(results)})
+		getDecks().then(decks=>this.props.dispatch(receiveDecks(decks)))
+
 	}
 
 	renderItem = ({item}) =>{
-		return 			<View style={styles.deck}>
+		return 			<View style={styles.deck} key={item}>
+							
 							<Text key={item} style={styles.deckTitle}>{item.title}</Text>
+							<Text key={item+'1'} style={{fontSize:16}}>{item.questions.length} cards</Text>
+					
 						</View>
 	}
 
 	render(){
+
 		
-		const decks=this.state.data
-		if (this.state.data===null){
+		const decks=this.props.decksReducer
+	
+		if (this.props.loading){
+				console.log('asasd',decks)
 			return <Text style={{paddingTop:100}}>nothing to show</Text>
 		}
 
@@ -68,6 +79,7 @@ const styles=StyleSheet.create({
 	},
 	decksContainer:{
 		paddingTop:60,
+		width:'auto',
 		alignItems:'center',
 
 
@@ -75,5 +87,10 @@ const styles=StyleSheet.create({
 
 })
 
-
-export default DeckView
+function mapStateToProps(decksReducer){
+	return {
+		decksReducer,
+		loading: decksReducer === null 
+	}
+}
+export default connect(mapStateToProps)(DeckView)

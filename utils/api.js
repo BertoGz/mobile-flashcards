@@ -9,26 +9,42 @@ const newDeckWithTitle = (title)=> {
   }
 }
 
-/*
-Object {
-  "Burgers": Object {
-    "questions": Array [],
-    "results": Array [],
-    "title": "Burgers",
+
+defaultData = {
+  React: {
+    title: 'React',
+    questions: [
+      {
+        question: 'What is React?',
+        answer: 'A library for managing user interfaces'
+      },
+      {
+        question: 'Where do you make Ajax requests in React?',
+        answer: 'The componentDidMount lifecycle event'
+      }
+    ]
   },
-  "Cookies": Object {
-    "questions": Array [],
-    "results": Array [],
-    "title": "Cookies",
-  },
-}*/
+  JavaScript: {
+    title: 'JavaScript',
+    questions: [
+      {
+        question: 'What is a closure?',
+        answer: 'The combination of a function and the lexical environment within which that function was declared.'
+      }
+    ]
+  }
+}
 
 
 
 
 
 export function getDecks(){
-  return AsyncStorage.getItem(DECKS_STORAGE_KEY).then(results=>JSON.parse(results))
+  return AsyncStorage.getItem(DECKS_STORAGE_KEY).then(results=>{if (results===null){
+    AsyncStorage.setItem(DECKS_STORAGE_KEY,JSON.stringify(defaultData)) 
+    return defaultData
+  } else { return JSON.parse(results)}
+})
 }
 
 export function getDeck(key){

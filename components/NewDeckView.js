@@ -1,34 +1,13 @@
 import React,{Component} from 'react'
-import {View, Text, StyleSheet, TouchableOpacity, TextInput} from 'react-native'
-import {saveDeckTitle,getDecks} from '../utils/api'
+import {View, Text, StyleSheet, TouchableOpacity, TextInput,AsyncStorage} from 'react-native'
 import {red,black,white,gray,lightPurp} from '../utils/colors'
 import { useNavigation } from '@react-navigation/native';
 import {DECKS_VIEW} from '../utils/routes'
 
+import {connect} from 'react-redux'
+import {saveDeckTitle} from '../utils/api'
+import {addDeck} from '../actions/decks'
 
-function CreateDeckButton(props){
-	const text = props.deckTitle
-	const navigation = useNavigation();
-
-	const handlePress = () =>{
-		if (text === ''){
-			console.log('empty')
-		}
-		else{
-			saveDeckTitle(text).then(navigation.navigate(DECKS_VIEW), 
-				/*props.dispatch(addDeck(([text]:{ title:text, questions:[]}) ))*/)
-		}  
-	}
-
-	return(
-		<TouchableOpacity
-			onPress={handlePress}
-			style={styles.button}
-			>
-			<Text style={{fontSize:22,color:white}}>Create Deck</Text>
-		</TouchableOpacity>
-	)
-}
 
 
 class NewDeckView extends Component{
@@ -42,7 +21,35 @@ class NewDeckView extends Component{
 	}
 
 
+
+
+
 	render(){
+
+		CreateDeckButton = () => {
+			const text = this.state.deckTitle
+			const navigation = useNavigation();
+
+			const handlePress = () =>{
+				if (text === ''){
+					console.log('empty')
+				}
+				else{
+					
+					saveDeckTitle(text).then(this.props.dispatch(addDeck(text)), navigation.navigate(DECKS_VIEW) 
+						/*props.dispatch(addDeck(([text]:{ title:text, questions:[]}) ))*/)
+				}  
+			}
+
+			return(
+				<TouchableOpacity
+					onPress={handlePress}
+					style={styles.button}
+					>
+					<Text style={{fontSize:22,color:white}}>Create Deck</Text>
+				</TouchableOpacity>
+			)
+		}
 		
 		return(
 			<View> 
@@ -57,13 +64,17 @@ class NewDeckView extends Component{
 			    />
 			    
 			    <View style={styles.container}>
-					<CreateDeckButton deckTitle={this.state.deckTitle} dispatch={this.props.dispatch}/>
+					<CreateDeckButton />
 				</View>
 
 			</View>
 		)
 	}
 }
+
+
+
+
 
 
 
@@ -98,5 +109,7 @@ const styles=StyleSheet.create({
 
 })
 
-
-export default NewDeckView
+function mapStateToProps(decksReducer){
+	return decksReducer
+}
+export default connect(mapStateToProps)(NewDeckView)
