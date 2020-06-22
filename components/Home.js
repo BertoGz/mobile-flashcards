@@ -4,14 +4,14 @@ import { View, Text, StyleSheet} from "react-native";
 //view components
 import NewDeckView from './NewDeckView';
 import DeckView from './DeckView';
-
+import SingleDeckView from './SingleDeckView'
 
 //navigation
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import {DECKS_VIEW, NEW_DECK_VIEW} from '../utils/routes'
+import {DECKS_VIEW, NEW_DECK_VIEW, SINGLE_DECK_VIEW} from '../utils/routes'
 
 
 // style imports
@@ -26,11 +26,10 @@ const RootStack = createStackNavigator();
 export default function Home() { 
 
   return (
-        <NavigationContainer>
-          <RootStack.Navigator screenOptions={{
-            headerShown: false
-          }}>
-            <RootStack.Screen name={DECKS_VIEW} component={DeckViewTabs}/>
+        <NavigationContainer> 
+          <RootStack.Navigator screenOptions={{headerShown: false}}>
+            <RootStack.Screen name={DECKS_VIEW} component={homeTabs}/>
+            <RootStack.Screen name={SINGLE_DECK_VIEW} component={SingleDeckView}/>
           </RootStack.Navigator>
         </NavigationContainer>
   );
@@ -53,22 +52,9 @@ const styles = StyleSheet.create({
 
 
 
-const NewDeckViewStack = createStackNavigator();
-
-  function NewDeckViewStackFunc() {
-  return (
-    <NewDeckViewStack.Navigator screenOptions={{
-    headerShown: false
-  }}>
-      <NewDeckViewStack.Screen name={NEW_DECK_VIEW} component={NewDeckView} />
-    </NewDeckViewStack.Navigator>
-  );
-}
-
-
 const Tab = createBottomTabNavigator();
   
-  function DeckViewTabs() {
+  function homeTabs() {
     return (
       <Tab.Navigator >
           <Tab.Screen name={DECKS_VIEW}  
@@ -82,7 +68,7 @@ const Tab = createBottomTabNavigator();
             tabBarIcon:()=>(
               <AntDesign name="plus" size={22} color={black} />
             )
-          }} component={NewDeckViewStackFunc} />
+          }} component={NewDeckView} />
       </Tab.Navigator>
     );
   }

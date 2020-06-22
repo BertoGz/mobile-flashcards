@@ -11,3 +11,5 @@ class SingleDeckView{
 		</View>
 	}
 }
+
+export default SingleDeckView
