@@ -59,55 +59,24 @@ export function saveDeckTitle(title){  //this func saves title of deck and key o
     [title]: deck
   }) )
   
-  
 }
 
 
 export function addCardToDeck(title,card){
-  return AsyncStorage.getItem(DECKS_STORAGE_KEY).then((data)=>{
-    const decks = JSON.parse(data);
-    const deck = decks[title]
-    deck.questions.concat(card)
-    AsyncStorage.setItem(DECKS_STORAGE_KEY,JSON.stringify({
-      [title]: deck
-    }))
-  })
-}
-
-
-
-
-/*
-
-export function initData(){
-  return (dispatch)=>{
-    
-    return getInitialData().then(({decks})=>{
-      dispatch(receiveDecks(decks))
+  return AsyncStorage.getItem(DECKS_STORAGE_KEY).then(decks=>JSON.parse(decks))
+  .then(
+    decks=>{
+      decks[title].questions.push(card)  
+      AsyncStorage.setItem(DECKS_STORAGE_KEY,JSON.stringify(decks))
     })
-  }
+}
+
+export function deleteDeck(title){
+  return AsyncStorage.getItem(DECKS_STORAGE_KEY).then(results=>JSON.parse(results))
+  .then(
+    results=>{
+      delete results.title 
+      AsyncStorage.setItem(DECKS_STORAGE_KEY,JSON.stringify(results) )} )
 }
 
 
-
-export function getInitialData () {
-  return Promise.all([
-    getDecks(),
-  ]).then(([decks]) => ({
-    decks,
-  }))
-}
-
-*/
-
-/*
-
-export funtion removeDeck(key){
-  return AsyncStorage.getItem(DECKS_STORAGE_KEY).then((results)=>{
-    const data = JSON.parse(results)
-    data[key] = undefined
-    delete data[key]
-    AsyncStorage.setItem(DECKS_STORAGE_KEY,JSON.stringify(data))
-  })
-}
-*/

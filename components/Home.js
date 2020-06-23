@@ -5,13 +5,13 @@ import { View, Text, StyleSheet, Button} from "react-native";
 import NewDeckView from './NewDeckView';
 import DeckView from './DeckView';
 import SingleDeckView from './SingleDeckView'
-
+import NewQuestionView from './NewQuestionView'
 //navigation
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import {DECKS_VIEW, NEW_DECK_VIEW, SINGLE_DECK_VIEW} from '../utils/routes'
+import {DECKS_VIEW, NEW_DECK_VIEW, SINGLE_DECK_VIEW, NEW_QUESTION_VIEW} from '../utils/routes'
 
 
 // style imports
@@ -36,6 +36,7 @@ export default function Home() {
           ),}}
             />
             <RootStack.Screen name={SINGLE_DECK_VIEW} component={SingleDeckView}/>
+            <RootStack.Screen name={NEW_QUESTION_VIEW} component={NewQuestionView}/>
           </RootStack.Navigator>
         </NavigationContainer>
   );
@@ -46,7 +47,7 @@ const styles = StyleSheet.create({
   center:{
     flex:1,
     justifyContent:'center',
-    alignItems:'center'
+    alignItems:'center',
   }
 })
 

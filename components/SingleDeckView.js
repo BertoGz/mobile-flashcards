@@ -1,37 +1,71 @@
 import React,{Component} from 'react'
-import {View,Text,StyleSheet, TouchableOpacity } from 'react-native'
-import {red,lightPurp,gray,black} from '../utils/colors'
+import {View,Text,StyleSheet, TouchableOpacity} from 'react-native'
+import {red,lightPurp,black,white,blue} from '../utils/colors'
+import {connect} from 'react-redux'
 
 import {addCardToDeck} from '../utils/api'
 import {addCard} from '../actions/decks'
 
+import {NEW_QUESTION_VIEW} from '../utils/routes'
+import { useNavigation } from '@react-navigation/native';
 
 
-export default function SingleDeckView({route}){
+class SingleDeckView extends Component{
+	render(){
 
-	const { item } = route.params;
+		if (this.props.loading){
+			return null
+		}
+
+	const { item } = this.props.route.params;
+	const deck=this.props.decksReducer[item.title]
 	return(
 		<View style={styles.decksContainer}>
 			<View style={styles.deck}>
-				<Text style={styles.deckTitle}>{item.title}</Text>
-				<Text style={{fontSize:20,paddingTop:10}}>{item.questions.length} cards</Text>
+				<Text style={styles.deckTitle}>{deck.title}</Text>
+				<Text style={{fontSize:20,paddingTop:10}}>{deck.questions.length} cards</Text>
 			</View>
 				
-				<View style={styles.button}>
-					<TouchableOpacity>
-						<Text style={styles.buttonTitle}>ADD CARD</Text>
-					</TouchableOpacity>
-				</View>
+				<AddCardButton deck={deck}/>
 
-				<View style={styles.button}>
-					<TouchableOpacity><Text style={styles.buttonTitle}>Start Quiz</Text></TouchableOpacity>
+				<View style={styles.quizButton}>
+					<TouchableOpacity><Text style={styles.quizTitle}>QUIZ</Text></TouchableOpacity>
 				</View>
-				<View style={[styles.button,{marginTop:50}]}>
-					<TouchableOpacity><Text style={styles.buttonTitle}>Delete Deck</Text></TouchableOpacity>
+				<View style={[styles.deleteButton,{marginTop:50}]}>
+					<TouchableOpacity><Text style={styles.deleteTitle}>Delete Deck</Text></TouchableOpacity>
 				</View>
 		</View>
 	)
+	}
 }
+
+const AddCardButton = ({deck})=>{
+	const navigator = useNavigation();
+
+	const handleNav = () =>{
+		navigator.navigate(NEW_QUESTION_VIEW,{deck:deck})
+	}
+
+	return (
+		<View style={styles.addButton}>
+			<TouchableOpacity onPress={handleNav} >
+				<Text style={styles.addCardTitle}>Add Card</Text>
+			</TouchableOpacity>
+		</View>
+	)
+}
+
+
+function mapStateToProps(decksReducer){
+	//const thisDeck = decksReducer[item]
+	return {
+		decksReducer,
+		loading: decksReducer === null,
+		//thisDeck,
+	}
+}
+export default connect(mapStateToProps)(SingleDeckView)
+
 
 
 
@@ -40,8 +74,8 @@ const styles=StyleSheet.create({
 		justifyContent:'center',
 		alignItems:'center',
 		margin:30,
-		width:260,
-		height:150,
+		width:300,
+		height:190,
 		backgroundColor:lightPurp,
 		shadowRadius:  2,
 		shadowOpacity: 0.8,
@@ -53,17 +87,38 @@ const styles=StyleSheet.create({
 		borderWidth:2, borderColor:black
 	},
 	deckTitle:{
-		fontSize:40,
+		fontSize:50,
 	},
-	buttonTitle:{
+	addCardTitle:{
+		color:red,
+		fontWeight:'bold',
+		fontSize:28,
+		shadowRadius:1,
+		shadowOpacity:1,
+		shadowOffset:{
+			width:0,
+			height:2,
+		},
+	},
+	quizTitle:{
+		color:white,
+		fontWeight:'bold',
 		fontSize:28,
 	},
-	button:{
-	
+	deleteTitle:{
+		fontSize:20,
+	},
+	addButton:{
 		marginTop:20,
-				shadowRadius:  2,
+	},
+	quizButton:{
+		marginTop:20,
+		shadowRadius:  2,
 		shadowOpacity: 0.8,
 		shadowColor: 'rgba(0,0,0,0.84)',
+	},
+	deleteButton:{
+		marginTop:20,
 	},
 	decksContainer:{
 		paddingTop:70,

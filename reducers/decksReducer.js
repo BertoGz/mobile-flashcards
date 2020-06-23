@@ -24,7 +24,7 @@ function decksReducer(state={},action){
 		}
 
 		case ADD_CARD:
-		const {question,answer}=action.card
+		const {deck,question,answer}=action.card
 		return{
 			...state,
 			[deck]:{
