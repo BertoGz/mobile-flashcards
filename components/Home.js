@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { View, Text, StyleSheet} from "react-native";
+import { View, Text, StyleSheet, Button} from "react-native";
 
 //view components
 import NewDeckView from './NewDeckView';
@@ -25,8 +25,16 @@ export default function Home() {
 
   return (
         <NavigationContainer> 
-          <RootStack.Navigator screenOptions={{headerShown: false}}>
-            <RootStack.Screen name={DECKS_VIEW} component={homeTabs}/>
+          <RootStack.Navigator screenOptions={{title:''}}>
+            <RootStack.Screen name={DECKS_VIEW} component={homeTabs}
+            options= {{headerRight: () => (
+            <Button
+              onPress={() => alert('This is a button!')}
+              title="Info"
+              color="#fff"
+            />
+          ),}}
+            />
             <RootStack.Screen name={SINGLE_DECK_VIEW} component={SingleDeckView}/>
           </RootStack.Navigator>
         </NavigationContainer>
@@ -56,7 +64,7 @@ const Tab = createBottomTabNavigator();
     return (
       <Tab.Navigator >
           <Tab.Screen name={DECKS_VIEW}  
-          options={{ title:'Decks',
+          options={{ title:'Decks',  
             tabBarIcon: () => (
                 <AntDesign name="home" color={black} size={22} />
               )}} 
