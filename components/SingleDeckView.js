@@ -1,12 +1,16 @@
 import React,{Component} from 'react'
 import {View,Text,StyleSheet, TouchableOpacity} from 'react-native'
 import {red,lightPurp,black,white,blue} from '../utils/colors'
-import {connect} from 'react-redux'
+import {connect,useDispatch} from 'react-redux'
 
 import {addCardToDeck} from '../utils/api'
 import {addCard} from '../actions/decks'
 
-import {NEW_QUESTION_VIEW} from '../utils/routes'
+import {deleteDeckAction} from '../actions/decks'
+import {deleteDeck} from '../utils/api'
+
+
+import {NEW_QUESTION_VIEW,DECKS_VIEW} from '../utils/routes'
 import { useNavigation } from '@react-navigation/native';
 
 
@@ -26,24 +30,27 @@ class SingleDeckView extends Component{
 				<Text style={{fontSize:20,paddingTop:10}}>{deck.questions.length} cards</Text>
 			</View>
 				
+				{/*Add Card Button*/}
 				<AddCardButton deck={deck}/>
 
+
+				{/*Quiz button */}
 				<View style={styles.quizButton}>
 					<TouchableOpacity><Text style={styles.quizTitle}>QUIZ</Text></TouchableOpacity>
 				</View>
-				<View style={[styles.deleteButton,{marginTop:50}]}>
-					<TouchableOpacity><Text style={styles.deleteTitle}>Delete Deck</Text></TouchableOpacity>
-				</View>
+
+				{/*delete button */}
+				<DeleteDeckButton deck={deck}/>
 		</View>
 	)
 	}
 }
 
 const AddCardButton = ({deck})=>{
-	const navigator = useNavigation();
+	const navigation = useNavigation();
 
 	const handleNav = () =>{
-		navigator.navigate(NEW_QUESTION_VIEW,{deck:deck})
+		navigation.navigate(NEW_QUESTION_VIEW,{deck:deck})
 	}
 
 	return (
@@ -54,6 +61,29 @@ const AddCardButton = ({deck})=>{
 		</View>
 	)
 }
+
+
+const DeleteDeckButton = ({deck})=>{
+	const navigation = useNavigation()
+	 const dispatch = useDispatch()
+	const handlePress = () =>{
+		deleteDeck(deck.title).then( dispatch(deleteDeckAction(deck)) ).then(
+			navigation.navigate(DECKS_VIEW)
+		)
+	}
+
+	return (
+		<View style={[styles.deleteButton,{marginTop:50}]}>
+			<TouchableOpacity onPress={handlePress}><Text style={styles.deleteTitle}>Delete Deck</Text></TouchableOpacity>
+		</View>
+	)
+}
+
+
+
+
+
+
 
 
 function mapStateToProps(decksReducer){

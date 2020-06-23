@@ -1,11 +1,15 @@
 import React,{Component} from 'react'
-import {View,Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native'
+import {View,Text, StyleSheet, TextInput, TouchableOpacity,} from 'react-native'
 import {red,black, lightPurp, white} from '../utils/colors'
 
 import {connect} from 'react-redux'
 
 import {addCardToDeck} from '../utils/api'
 import {addCard} from '../actions/decks'
+
+import { useNavigation } from '@react-navigation/native';
+
+
 class NewQuestionView extends Component{
 
 
@@ -31,20 +35,37 @@ class NewQuestionView extends Component{
 
 	render(){
 		const { title } = this.props.route.params.deck
+		
+		
+			const SubmitButton = (textQuestion,textAnswer)=>{
+				
+				const navigation = useNavigation()
+				const handleSubmit = () =>{
 
-			const handleSubmit = () =>{
-				if (this.props.textQuestion === '' || this.props.textAnswer===''){
-					console.log('empty')
+				const card = {textQuestion,textAnswer}
+				if (textQuestion === '' || textAnswer===''){
+						console.log('empty')
+					}
+					else{
+						addCardToDeck(title,card).then(
+							this.props.dispatch(addCard({deck:title,question:textQuestion,answer:textAnswer})
+								,navigation.goBack())
+						)
+					}
+					
 				}
-				else{
-					const card = {question:this.state.textQuestion,answer:this.state.textAnswer}
 
-					addCardToDeck(title,card).then(
-						this.props.dispatch(addCard({deck:title,question:this.state.textQuestion,answer:this.state.textAnswer}))
-					//, navigation.navigate(DECKS_VIEW) 
-					)
-				}  
+				return (
+					<View style={{alignItems:'center'}}>
+						<TouchableOpacity style={styles.button} onPress={handleSubmit}>
+							<Text style={{fontSize:22,color:white}}>Create Card</Text>
+						</TouchableOpacity>
+					</View>
+
+				)
+					
 			}
+
 
 
 		return(
@@ -62,15 +83,16 @@ class NewQuestionView extends Component{
 				
 
 				{/*submit button*/}
-				<View style={{alignItems:'center'}}>
-					<TouchableOpacity style={styles.button} onPress={handleSubmit}>
-						<Text style={{fontSize:22,color:white}}>Create Card</Text>
-					</TouchableOpacity>
-				</View>
+				<SubmitButton textQuestion={this.state.textQuestion} textAnswer={this.state.textQuestion}/>
 			</View>
 		)
 	}
 }
+
+
+
+
+
 
 
 const styles = StyleSheet.create({

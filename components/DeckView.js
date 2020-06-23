@@ -31,7 +31,6 @@ class DeckView extends Component{
 		const decks=this.props.decksReducer
 	
 		if (this.props.loading){
-				console.log('asasd',decks)
 			return <Text style={{paddingTop:100}}>nothing to show</Text>
 		}
 

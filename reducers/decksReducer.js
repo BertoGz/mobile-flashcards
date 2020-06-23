@@ -1,4 +1,4 @@
-import {RECEIVE_DECKS,ADD_DECK,ADD_CARD} from '../actions/decks'
+import {RECEIVE_DECKS,ADD_DECK,ADD_CARD, DELETE_DECK} from '../actions/decks'
 
 
 
@@ -32,6 +32,14 @@ function decksReducer(state={},action){
 				questions:[...state[deck].questions,{question,answer}]
 			}
 		}
+
+		case DELETE_DECK:
+		  delete state[action.deck]
+		  console.log(state)
+      		return {
+        	...state,
+      		}
+		
 
 		default: return state
 	}
