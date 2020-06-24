@@ -42,13 +42,18 @@ class NewQuestionView extends Component{
 				const navigation = useNavigation()
 				const handleSubmit = () =>{
 
-				const card = {textQuestion,textAnswer}
+			
 				if (textQuestion === '' || textAnswer===''){
 						console.log('empty')
 					}
 					else{
+							const card = {
+						        question: this.state.textQuestion,
+						        answer: this.state.textAnswer
+						    }
 						addCardToDeck(title,card).then(
-							this.props.dispatch(addCard({deck:title,question:textQuestion,answer:textAnswer})
+							
+							this.props.dispatch(addCard(title,card)
 								,navigation.goBack())
 						)
 					}

@@ -24,18 +24,17 @@ function decksReducer(state={},action){
 		}
 
 		case ADD_CARD:
-		const {deck,question,answer}=action.card
+		const {deck,card}=action
 		return{
 			...state,
 			[deck]:{
 				...state[deck],
-				questions:[...state[deck].questions,{question,answer}]
+				questions:[...state[deck].questions].concat(card)
 			}
 		}
 
 		case DELETE_DECK:
   delete state[action.deck]
-  console.log(state)
   return {
    ...state,
   }

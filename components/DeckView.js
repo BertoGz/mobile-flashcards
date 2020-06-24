@@ -20,7 +20,6 @@ class DeckView extends Component{
 	}
 
 	componentDidMount(){
-		//getDecks().then(results=>{this.setState({data:results}), console.log(results)})
 		getDecks().then(decks=>this.props.dispatch(receiveDecks(decks)))
 
 	}
@@ -28,52 +27,36 @@ class DeckView extends Component{
 
 	render(){
 		
+		//grab decks from store
 		const decks=this.props.decksReducer
 	
 		if (this.props.loading){
 			return <Text style={{paddingTop:100}}>nothing to show</Text>
 		}
 
+		// render if no decks
+		if (Object.values(decks).length===0){
+			return (
+				<View style={{alignItems:'center',paddingTop:100}}> 
+					<Text style={{fontSize:36}}>No Decks</Text> 
+					<Text style={{fontSize:18,paddingTop:20}}>Please Create A Deck</Text> 
+				</View>
+				)
+		}
+
 		return(
 			<View style={styles.decksContainer}>
 				<FlatList data={Object.values(decks)} 
-				renderItem={ ({item: userData})=>{return <Deck deck={userData} key={userData}/>}} 
+				renderItem={ ({item: deck})=>{return <Deck deck={deck} />}} 
 				keyExtractor={(item, index) => index.toString()}
 				/>
-
 			</View>
 		)
 
 	}
 
 }
-/*
 
-const Deck=({item})=>{
-	return(
-			<View key={item}>
-				<Clickable item={item}/>
-			</View>
-	)
-}
-
-const Clickable = ({item}) => {
-    const navigator = useNavigation();
-    const handleNav = () => {
-        navigator.navigate(SINGLE_DECK_VIEW, {
-            item: item,
-          });
-    };
-    return(
-    	<TouchableOpacity key={item} onPress={handleNav} >
-    		<View style={styles.deck}>
-				<Text key={item} style={styles.deckTitle}>{item.title}</Text>
-				<Text key={item+'1'} style={{fontSize:16}}>{item.questions.length} cards</Text>
-				
-			</View>
-		</TouchableOpacity>
-    )
-}*/
 
 
 const Deck = ({deck})=>{
@@ -91,7 +74,6 @@ const Deck = ({deck})=>{
 	    		<View style={styles.deck} >
 					<Text style={styles.deckTitle} >{deck.title}</Text>
 					<Text  style={{fontSize:16}} >{deck.questions.length} cards</Text>
-					
 				</View>
 			</TouchableOpacity>
 	    )

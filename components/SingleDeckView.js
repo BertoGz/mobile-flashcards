@@ -10,7 +10,7 @@ import {deleteDeckAction} from '../actions/decks'
 import {deleteDeck} from '../utils/api'
 
 
-import {NEW_QUESTION_VIEW,DECKS_VIEW} from '../utils/routes'
+import {NEW_QUESTION_VIEW,DECKS_VIEW, QUIZ_VIEW} from '../utils/routes'
 import { useNavigation } from '@react-navigation/native';
 
 
@@ -39,9 +39,7 @@ class SingleDeckView extends Component{
 
 
 				{/*Quiz button */}
-				<View style={styles.quizButton}>
-					<TouchableOpacity><Text style={styles.quizTitle}>QUIZ</Text></TouchableOpacity>
-				</View>
+				<QuizButton deck={deck}/>
 
 				{/*delete button */}
 				<DeleteDeckButton deck={deck}/>
@@ -62,6 +60,20 @@ const AddCardButton = ({deck})=>{
 			<TouchableOpacity onPress={handleNav} >
 				<Text style={styles.addCardTitle}>Add Card</Text>
 			</TouchableOpacity>
+		</View>
+	)
+}
+
+const QuizButton = ({deck})=>{
+	const navigation = useNavigation();
+
+	const handleNav = ()=>{
+		console.log('AA',deck)
+		navigation.navigate(QUIZ_VIEW,{deck:deck})
+	}
+	return(
+		<View style={styles.quizButton}>
+			<TouchableOpacity onPress={handleNav}><Text style={styles.quizTitle}>QUIZ</Text></TouchableOpacity>
 		</View>
 	)
 }
@@ -91,11 +103,9 @@ const DeleteDeckButton = ({deck})=>{
 
 
 function mapStateToProps(decksReducer){
-	//const thisDeck = decksReducer[item]
 	return {
 		decksReducer,
 		loading: decksReducer === null,
-		//thisDeck,
 	}
 }
 export default connect(mapStateToProps)(SingleDeckView)
