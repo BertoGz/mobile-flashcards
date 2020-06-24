@@ -30,6 +30,10 @@ Use Yarn install to install project with all its dependencies.
 Yarn Install
 ```
 
+```
+Run `yarn start` to start the bundler.
+```
+
 ### Prerequisites
 
 This project was developed for IOS in mind and has only been tested on an
