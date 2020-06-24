@@ -34,7 +34,7 @@ export default function Home() {
               title="Info"
               color="#fff"
             />
-          ),}}
+            ),}}
             />
             <RootStack.Screen name={SINGLE_DECK_VIEW} component={SingleDeckView}/>
             <RootStack.Screen name={NEW_QUESTION_VIEW} component={NewQuestionView}/>
@@ -43,20 +43,6 @@ export default function Home() {
         </NavigationContainer>
   );
 }
-
-
-const styles = StyleSheet.create({
-  center:{
-    flex:1,
-    justifyContent:'center',
-    alignItems:'center',
-  }
-})
-
-
-
-
-
 
 
 
@@ -81,4 +67,16 @@ const Tab = createBottomTabNavigator();
       </Tab.Navigator>
     );
   }
+
+
+
+  const styles = StyleSheet.create({
+  center:{
+    flex:1,
+    justifyContent:'center',
+    alignItems:'center',
+  }
+})
+
+
 

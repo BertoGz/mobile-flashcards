@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
-import {Text,View, StyleSheet, FlatList,TouchableOpacity} from 'react-native'
+import {Text,View, StyleSheet, FlatList,TouchableOpacity, AsyncStorage} from 'react-native'
 import {red,lightPurp,gray,black} from '../utils/colors'
-
+import {DECKS_STORAGE_KEY } from '../utils/api'
 import {connect} from 'react-redux'
 import {getDecks} from '../utils/api'
 import {receiveDecks} from '../actions/decks'
@@ -10,18 +10,27 @@ import {receiveDecks} from '../actions/decks'
 import { useNavigation } from '@react-navigation/native';
 import {SINGLE_DECK_VIEW} from '../utils/routes'
 
+import {setLocalNotification} from '../utils/api'
 
 
 
 class DeckView extends Component{
+
+
+
 
 	state={
 		data:null
 	}
 
 	componentDidMount(){
-		getDecks().then(decks=>this.props.dispatch(receiveDecks(decks)))
+		getDecks().then(decks=>this.props.dispatch(receiveDecks(decks)))	
+		setLocalNotification()
+	}
 
+	handleLoadDefault=()=>{
+		AsyncStorage.removeItem(DECKS_STORAGE_KEY)
+		getDecks().then(decks=>this.props.dispatch(receiveDecks(decks)))	
 	}
 
 
@@ -39,7 +48,9 @@ class DeckView extends Component{
 			return (
 				<View style={{alignItems:'center',paddingTop:100}}> 
 					<Text style={{fontSize:36}}>No Decks</Text> 
-					<Text style={{fontSize:18,paddingTop:20}}>Please Create A Deck</Text> 
+					<TouchableOpacity onPress={this.handleLoadDefault}>
+					<Text style={{fontSize:18,paddingTop:20, color:red}}>Tap to load default Decks</Text> 
+					</TouchableOpacity>
 				</View>
 				)
 		}
@@ -48,8 +59,8 @@ class DeckView extends Component{
 			<View style={styles.decksContainer}>
 				<Text style={{fontSize:36}}>Your Decks</Text>
 				<FlatList data={Object.values(decks)} 
-				renderItem={ ({item: deck})=>{return <Deck deck={deck} />}} 
-				keyExtractor={(item, index) => index.toString()}
+					renderItem={ ({item: deck})=>{return <Deck deck={deck} />}} 
+					keyExtractor={(item, index) => index.toString()}
 				/>
 			</View>
 		)
@@ -59,8 +70,9 @@ class DeckView extends Component{
 }
 
 
-
+// Renders a deck item
 const Deck = ({deck})=>{
+	
 	const Clickable = ({deck}) => {
 	    const navigator = useNavigation();
 	    
@@ -81,9 +93,9 @@ const Deck = ({deck})=>{
 	}
 
 	return(
-			<View >
-				<Clickable deck={deck} key={deck}/>
-			</View>
+		<View >
+			<Clickable deck={deck} key={deck}/>
+		</View>
 	)
 
 
@@ -119,7 +131,9 @@ const styles=StyleSheet.create({
 	decksContainer:{
 		paddingTop:10,
 		width:'auto',
+		height:'100%',
 		alignItems:'center',
+		backgroundColor:'rgb(200,200,250)',
 	}
 
 })

@@ -20,7 +20,6 @@ import decksReducer from './reducers/decksReducer'
 
 
 export default function App() { 
-
   return (
     <Provider store={createStore(decksReducer)}>
         <Home/>

@@ -1,5 +1,9 @@
-import { AsyncStorage } from 'react-native'
+ import { AsyncStorage } from 'react-native'
 export const DECKS_STORAGE_KEY = 'mobile-flashcards:decks'
+export const NOTIFICATION_KEY = 'mobile-flashcards:notifications'
+import {Notifications} from 'expo'
+import * as Permissions from 'expo-permissions'
+
 
 
 const newDeckWithTitle = (title)=> {
@@ -11,26 +15,46 @@ const newDeckWithTitle = (title)=> {
 
 
 defaultData = {
-  React: {
-    title: 'React',
+  Cooking: {
+    title: 'Cooking',
     questions: [
       {
-        question: 'What is React?',
-        answer: 'A library for managing user interfaces'
+        question: 'When a food is salty, its ____ levels are high',
+        answer: 'Sodium'
       },
       {
-        question: 'Where do you make Ajax requests in React?',
-        answer: 'The componentDidMount lifecycle event'
-      }
+        question: 'Do you need to wash chicken?',
+        answer: 'No, but you can'
+      },
+      {
+        question: 'What is the flavor phenomenon that happens when all types of flavor are present?',
+        answer: 'Umami'
+      },
+      {
+        question: 'When a burger is smashed its known as a ____ burger',
+        answer: 'smash'
+      },
     ]
   },
-  JavaScript: {
-    title: 'JavaScript',
+  Pets: {
+    title: 'Pets',
     questions: [
       {
-        question: 'What is a closure?',
-        answer: 'The combination of a function and the lexical environment within which that function was declared.'
-      }
+        question: 'Who are good boys?',
+        answer: 'Dogs'
+      },
+      {
+        question: 'Who are the slowest?',
+        answer: 'Turtles'
+      },
+      {
+        question: 'The biggest Animal',
+        answer: 'Whale'
+      },
+      {
+        question: 'Who has 9 Lives?',
+        answer: 'Cats'
+      },
     ]
   }
 }
@@ -40,10 +64,10 @@ defaultData = {
 
 
 export function getDecks(){
-  return AsyncStorage.getItem(DECKS_STORAGE_KEY).then(results=>{if (results===null){
+  return AsyncStorage.getItem(DECKS_STORAGE_KEY).then(data=>{if (data===null){
     AsyncStorage.setItem(DECKS_STORAGE_KEY,JSON.stringify(defaultData)) 
     return defaultData
-  } else { return JSON.parse(results)}
+  } else { return JSON.parse(data)}
 })
 }
 
@@ -72,11 +96,60 @@ export function addCardToDeck(title,card){
 }
 
 export function deleteDeck(title){
-  return AsyncStorage.getItem(DECKS_STORAGE_KEY).then(results=>JSON.parse(results))
+  return AsyncStorage.getItem(DECKS_STORAGE_KEY).then(data=>JSON.parse(data))
   .then(
-    results=>{
-      delete results[title]
-      AsyncStorage.setItem(DECKS_STORAGE_KEY,JSON.stringify(results) )} )
+    data=>{
+      delete data[title]
+      AsyncStorage.setItem(DECKS_STORAGE_KEY,JSON.stringify(data) )} )
 }
 
+
+
+
+export function clearLocalNotification () {
+  return AsyncStorage.removeItem(NOTIFICATION_KEY)
+    .then(Notifications.cancelAllScheduledNotificationsAsync)
+}
+
+function createNotification(){
+  return{
+    title: 'Time To Study!',
+    body:'You havent studied your flashcards recently..',
+    ios:{
+      sound: true
+    },
+    andriod:{
+      sound:true,
+      priority: 'high',
+      sticky:false,
+      vibrate: true
+    }
+  }
+}
+export function setLocalNotification(){
+  AsyncStorage.getItem(NOTIFICATION_KEY).then(JSON.parse).then((data)=>{
+    if (data===null){
+      Permissions.askAsync(Permissions.NOTIFICATIONS).then(({status})=>{
+        if (status==='granted'){
+          Notifications.cancelAllScheduledNotificationsAsync()
+
+          let tomorrow = new Date()
+
+          tomorrow.setDate(tomorrow.getDate()+1)
+          tomorrow.setHours(18)
+          tomorrow.setMinutes(0)
+          Notifications.scheduleLocalNotificationAsync(
+            createNotification(),
+            {
+              time:tomorrow,
+              repeat: 'day',
+            }
+            )
+            AsyncStorage.setItem(NOTIFICATION_KEY,JSON.stringify(true))
+          
+        }
+      })
+    }
+  })
+}
 

@@ -3,7 +3,7 @@ import {View,Text,StyleSheet, TouchableOpacity} from 'react-native'
 import {red,lightPurp,black,white,blue} from '../utils/colors'
 import {connect,useDispatch} from 'react-redux'
 
-import {addCardToDeck} from '../utils/api'
+import {addCardToDeck, clearLocalNotification,setLocalNotification} from '../utils/api'
 import {addCard} from '../actions/decks'
 
 import {deleteDeckAction} from '../actions/decks'
@@ -70,6 +70,7 @@ const QuizButton = ({deck})=>{
 	const navigation = useNavigation();
 
 	const handleNav = ()=>{
+		clearLocalNotification().then(setLocalNotification)
 		navigation.navigate(QUIZ_VIEW,{deck:deck})
 	}
 	return(

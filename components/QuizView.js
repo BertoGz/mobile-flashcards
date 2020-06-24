@@ -1,22 +1,35 @@
 import React,{Component} from 'react'
-import {View, Text, StyleSheet,FlatList, TouchableOpacity} from 'react-native'
-import {white,lightPurp, black,green,lightRed} from '../utils/colors'
+import {View, Text, StyleSheet,FlatList, TouchableOpacity, Animated} from 'react-native'
+import {white,lightPurp, black,green,lightRed,blue} from '../utils/colors'
 import { useNavigation } from '@react-navigation/native';
 import {QUIZ_VIEW,SINGLE_DECK_VIEW} from '../utils/routes'
+
+
 class QuizView extends Component{
 		
 	state={
 		cardNum:0,
 		numCorrect:0,
-		flipped: false
+		flipped: false,
+		opacity: new Animated.Value(-1)
 	}
 
+	componentDidMount(){
+		Animated.timing(this.state.opacity,{ toValue: 1, duration:1000}).start()
+	}
 
 	 render(){
 	 	const { deck } = this.props.route.params;
-
-
 	 	const numOfQuestions = deck.questions.length;
+
+Animated.timing(this.state.opacity,{ toValue: 1, duration:1000}).start()
+
+
+	 	if (numOfQuestions<=0){
+	 		return (
+	 			<NoQuestionsView deck={deck}/>
+	 		)
+	 	}
 
 
 	 	if (this.state.cardNum===numOfQuestions){
@@ -35,11 +48,14 @@ class QuizView extends Component{
 			this.setState({cardNum:this.state.cardNum+1})
 			this.setState({numCorrect:this.state.numCorrect+1})
 			this.setState({flipped:false})
+			this.setState({opacity:new Animated.Value(-1)})
+
 		}
 
 		const handleIncorrect=()=>{
 			this.setState({cardNum:this.state.cardNum+1})
 			this.setState({flipped:false})
+			this.setState({opacity:new Animated.Value(-1)})
 		}
 
 		const handleFlip=()=>{
@@ -48,13 +64,17 @@ class QuizView extends Component{
 
 
 
-
+		const opacity=this.state.opacity
 
 	 	return(
+
+	 		<View style={{height:'100%',backgroundColor:blue}}>
 	 		<View style={{alignItems:'center'}}>
-	 			<Question card={deck.questions[this.state.cardNum]} handleFlip={handleFlip} flipped={this.state.flipped}/>
+	 			<Question opacity={opacity} card={deck.questions[this.state.cardNum]} handleFlip={handleFlip} flipped={this.state.flipped}/>
 	 			
 	 			<Text style={styles.remaining}>Question {this.state.cardNum+1}/{numOfQuestions}</Text>
+	 			
+	 			{/*render additional details to screen after flipping card*/}
 	 			{ this.state.flipped && 
 	 				<View>
 			 			<TouchableOpacity style={[styles.button,{backgroundColor:green}]} 
@@ -69,13 +89,14 @@ class QuizView extends Component{
 		 			</View>
 	 			}
 	 		</View>
+	 		</View>
 	 	)
 	 }
 }
 
 
 // shows the card/question to screen
-const Question=({card,handleFlip,flipped})=>{
+const Question=({card,handleFlip,flipped, opacity})=>{
 	if (!card){
 		return null
 	}
@@ -85,7 +106,7 @@ const Question=({card,handleFlip,flipped})=>{
 	}
 	return(
 		<TouchableOpacity onPress={flipCard}>
-		<View style={styles.deck}>
+		<Animated.View style={[styles.deck, {opacity}]}>
 			<View style={styles.questionContainer}>
 				{ !flipped &&
 				<Text style={styles.questionText}>{ card.question }</Text>
@@ -95,7 +116,7 @@ const Question=({card,handleFlip,flipped})=>{
 				}
 			</View>
 			<Text style={{fontSize:20,marginTop:10,color:white}}>Flip Card</Text>
-		</View>	
+		</Animated.View>	
 		</TouchableOpacity>
 	)
 }
@@ -105,8 +126,8 @@ const QuizResults=({numCorrect,total,handleRestart,deck})=>{
 	return(
 		<View>
 			<View style={{justifyContent:'center',alignItems:'center'}}>
-				<Text style={{fontSize:36, marginTop:60}}>Quiz Results:</Text>
-				<Text style={{fontSize:32, marginTop:20}}>{numCorrect}/{total}</Text>
+				<Text style={{fontSize:32, marginTop:60}}>Quiz Results:</Text>
+				<Text style={{fontSize:38, marginTop:20, color:lightRed}}>{numCorrect}/{total}</Text>
 
 				<TouchableOpacity style={[styles.button,{backgroundColor:lightPurp}]} 
 	 				onPress={handleRestart} >
@@ -137,6 +158,27 @@ const ReturnButton = ({deck})=>{
 	)
 }
 
+
+const NoQuestionsView = ({deck})=>{
+	const navigation = useNavigation();
+
+	const handleNav = () =>{
+		navigation.navigate(SINGLE_DECK_VIEW,{deck:deck})
+	}
+
+	return(
+		<View>
+			<View style={[styles.deck,{marginTop:100, backgroundColor:blue}]}>
+			 	<Text style={{fontSize:35,textAlign:'center'}}>Cannot Start Quiz Without Cards</Text>
+			</View>
+			<View style={{justifyContent:'center',alignItems:'center'}}>
+				<TouchableOpacity style={[styles.button,{backgroundColor:lightPurp}]} onPress={handleNav} >
+			 		<Text style={{fontSize:26}}>Return</Text>
+			 	</TouchableOpacity>
+			 </View>
+		</View>
+	)
+}
 
 
 
@@ -175,7 +217,7 @@ deck:{
 		justifyContent:'center',
 		borderColor: black,
 		borderBottomWidth: 2,
-		borderRadius:10
+		borderRadius:10,
 	},
 	questionContainer:{
 		backgroundColor:'rgba(255,255,05,0.05)', 
@@ -183,7 +225,7 @@ deck:{
 		width:'90%',
 		paddingBottom:0,
 		justifyContent:'center',
-		alignItems:'center'
+		alignItems:'center',
 	},
 	remaining:{
 		fontSize:22
