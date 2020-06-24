@@ -36,8 +36,7 @@ class NewDeckView extends Component{
 				}
 				else{
 					
-					saveDeckTitle(text).then(this.props.dispatch(addDeck(text)), navigation.navigate(DECKS_VIEW) 
-						/*props.dispatch(addDeck(([text]:{ title:text, questions:[]}) ))*/)
+					saveDeckTitle(text).then(this.props.dispatch(addDeck(text)), navigation.navigate(DECKS_VIEW) )
 				}  
 			}
 
@@ -54,7 +53,8 @@ class NewDeckView extends Component{
 		return(
 			<View> 
 				
-				<View style={[styles.container, {paddingTop:150}]}>
+				<View style={[styles.container, {paddingTop:10}]}>
+					<Text style={{fontSize:36, paddingBottom:120}}>Add New Deck</Text>
 					<Text style={{fontSize:26}}>What is the title of the Deck?</Text>
 				</View>
 				

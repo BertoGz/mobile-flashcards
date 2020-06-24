@@ -34,6 +34,7 @@ class SingleDeckView extends Component{
 				<Text style={{fontSize:20,paddingTop:10}}>{deck.questions.length} cards</Text>
 			</View>
 				
+			<View style={styles.container2}>
 				{/*Add Card Button*/}
 				<AddCardButton deck={deck}/>
 
@@ -43,6 +44,7 @@ class SingleDeckView extends Component{
 
 				{/*delete button */}
 				<DeleteDeckButton deck={deck}/>
+			</View>
 		</View>
 	)
 	}
@@ -68,7 +70,6 @@ const QuizButton = ({deck})=>{
 	const navigation = useNavigation();
 
 	const handleNav = ()=>{
-		console.log('AA',deck)
 		navigation.navigate(QUIZ_VIEW,{deck:deck})
 	}
 	return(
@@ -134,8 +135,7 @@ const styles=StyleSheet.create({
 		fontSize:50,
 	},
 	addCardTitle:{
-		color:red,
-		fontWeight:'bold',
+		color:white,
 		fontSize:28,
 		shadowRadius:1,
 		shadowOpacity:1,
@@ -151,23 +151,45 @@ const styles=StyleSheet.create({
 	},
 	deleteTitle:{
 		fontSize:20,
+		color:white,
+		shadowRadius:1,
+		shadowOpacity:1,
+		shadowOffset:{
+			width:0,
+			height:2,
+		},
 	},
 	addButton:{
-		marginTop:20,
+		marginTop:0,
 	},
 	quizButton:{
-		marginTop:20,
+		marginTop:30,
 		shadowRadius:  2,
 		shadowOpacity: 0.8,
 		shadowColor: 'rgba(0,0,0,0.84)',
 	},
 	deleteButton:{
-		marginTop:20,
+		marginTop:30,
 	},
 	decksContainer:{
-		paddingTop:70,
+		paddingTop:30,
 		width:'auto',
 		alignItems:'center',
+	},
+	container2:{
+		justifyContent:'center',
+		alignItems:'center',
+		width:'80%',
+		height:300,
+		backgroundColor:blue,
+		shadowRadius:  2,
+		shadowOpacity: 0.8,
+		shadowColor: 'rgba(0,0,0,0.84)',
+		shadowOffset:{
+			width:5,
+			height:6,
+		},
+		borderWidth:2, borderColor:black
 	}
 
 })

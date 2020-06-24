@@ -46,6 +46,7 @@ class DeckView extends Component{
 
 		return(
 			<View style={styles.decksContainer}>
+				<Text style={{fontSize:36}}>Your Decks</Text>
 				<FlatList data={Object.values(decks)} 
 				renderItem={ ({item: deck})=>{return <Deck deck={deck} />}} 
 				keyExtractor={(item, index) => index.toString()}
