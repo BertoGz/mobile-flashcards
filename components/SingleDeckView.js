@@ -23,6 +23,10 @@ class SingleDeckView extends Component{
 
 	const { item } = this.props.route.params;
 	const deck=this.props.decksReducer[item.title]
+
+	if (!deck){
+		return null
+	}
 	return(
 		<View style={styles.decksContainer}>
 			<View style={styles.deck}>
@@ -67,7 +71,7 @@ const DeleteDeckButton = ({deck})=>{
 	const navigation = useNavigation()
 	 const dispatch = useDispatch()
 	const handlePress = () =>{
-		deleteDeck(deck.title).then( dispatch(deleteDeckAction(deck)) ).then(
+		deleteDeck(deck.title).then( dispatch(deleteDeckAction(deck.title)) ).then(
 			navigation.navigate(DECKS_VIEW)
 		)
 	}

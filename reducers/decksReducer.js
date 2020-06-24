@@ -34,11 +34,11 @@ function decksReducer(state={},action){
 		}
 
 		case DELETE_DECK:
-		  delete state[action.deck]
-		  console.log(state)
-      		return {
-        	...state,
-      		}
+  delete state[action.deck]
+  console.log(state)
+  return {
+   ...state,
+  }
 		
 
 		default: return state

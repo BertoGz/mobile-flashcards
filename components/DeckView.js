@@ -36,7 +36,10 @@ class DeckView extends Component{
 
 		return(
 			<View style={styles.decksContainer}>
-				<FlatList data={Object.values(decks)} renderItem={Deck}/>
+				<FlatList data={Object.values(decks)} 
+				renderItem={ ({item: userData})=>{return <Deck deck={userData} key={userData}/>}} 
+				keyExtractor={(item, index) => index.toString()}
+				/>
 
 			</View>
 		)
@@ -44,7 +47,7 @@ class DeckView extends Component{
 	}
 
 }
-
+/*
 
 const Deck=({item})=>{
 	return(
@@ -70,7 +73,41 @@ const Clickable = ({item}) => {
 			</View>
 		</TouchableOpacity>
     )
+}*/
+
+
+const Deck = ({deck})=>{
+	const Clickable = ({deck}) => {
+	    const navigator = useNavigation();
+	    
+	    const handleNav = () => {
+	        navigator.navigate(SINGLE_DECK_VIEW, {
+	            item: deck,
+	          });
+	    };
+
+	    return(
+	    	<TouchableOpacity onPress={handleNav} >
+	    		<View style={styles.deck} >
+					<Text style={styles.deckTitle} >{deck.title}</Text>
+					<Text  style={{fontSize:16}} >{deck.questions.length} cards</Text>
+					
+				</View>
+			</TouchableOpacity>
+	    )
+	}
+
+	return(
+			<View >
+				<Clickable deck={deck} key={deck}/>
+			</View>
+	)
+
+
 }
+
+
+
 
 
 

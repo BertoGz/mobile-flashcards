@@ -6,12 +6,13 @@ import NewDeckView from './NewDeckView';
 import DeckView from './DeckView';
 import SingleDeckView from './SingleDeckView'
 import NewQuestionView from './NewQuestionView'
+import QuizView from './QuizView'
 //navigation
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import {DECKS_VIEW, NEW_DECK_VIEW, SINGLE_DECK_VIEW, NEW_QUESTION_VIEW} from '../utils/routes'
+import {DECKS_VIEW, NEW_DECK_VIEW, SINGLE_DECK_VIEW, NEW_QUESTION_VIEW,QUIZ_VIEW} from '../utils/routes'
 
 
 // style imports
@@ -37,6 +38,7 @@ export default function Home() {
             />
             <RootStack.Screen name={SINGLE_DECK_VIEW} component={SingleDeckView}/>
             <RootStack.Screen name={NEW_QUESTION_VIEW} component={NewQuestionView}/>
+            <RootStack.Screen name={QUIZ_VIEW} component={QuizView}/>
           </RootStack.Navigator>
         </NavigationContainer>
   );
