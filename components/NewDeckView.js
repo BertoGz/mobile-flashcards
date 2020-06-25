@@ -2,11 +2,12 @@ import React,{Component} from 'react'
 import {View, Text, StyleSheet, TouchableOpacity, TextInput,AsyncStorage} from 'react-native'
 import {red,black,white,gray,lightPurp} from '../utils/colors'
 import { useNavigation } from '@react-navigation/native';
-import {DECKS_VIEW} from '../utils/routes'
+import {DECKS_VIEW,SINGLE_DECK_VIEW} from '../utils/routes'
 
 import {connect} from 'react-redux'
 import {saveDeckTitle} from '../utils/api'
 import {addDeck} from '../actions/decks'
+import {getDeck} from '../utils/api'
 
 
 
@@ -36,7 +37,9 @@ class NewDeckView extends Component{
 				}
 				else{
 					
-					saveDeckTitle(text).then(this.props.dispatch(addDeck(text)), navigation.navigate(DECKS_VIEW) )
+					saveDeckTitle(text).then(this.props.dispatch(addDeck(text)))
+					getDeck(text).then(result=>{navigation.navigate(DECKS_VIEW) , navigation.navigate(SINGLE_DECK_VIEW,{item: result})}    )
+
 				}  
 			}
 

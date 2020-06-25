@@ -72,7 +72,10 @@ export function getDecks(){
 }
 
 export function getDeck(key){
-  return AsyncStorage.getItem(DECKS_STORAGE_KEY,key)
+  return AsyncStorage.getItem(DECKS_STORAGE_KEY).then(JSON.parse)
+    .then((data) => {
+      return data[key]
+    })
 }
 
 export function saveDeckTitle(title){  //this func saves title of deck and key onto decks storage

@@ -22,7 +22,7 @@ class QuizView extends Component{
 	 	const { deck } = this.props.route.params;
 	 	const numOfQuestions = deck.questions.length;
 
-Animated.timing(this.state.opacity,{ toValue: 1, duration:1000}).start()
+		Animated.timing(this.state.opacity,{ toValue: 1, duration:1000}).start()
 
 
 	 	if (numOfQuestions<=0){

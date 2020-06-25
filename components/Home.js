@@ -28,15 +28,13 @@ export default function Home() {
         <NavigationContainer> 
           <RootStack.Navigator screenOptions={{title:''}}>
             <RootStack.Screen name={DECKS_VIEW} component={homeTabs}
-            options= {{headerRight: () => (
-            <Button
-              onPress={() => alert('This is a button!')}
-              title="Info"
-              color="#fff"
+      
             />
-            ),}}
+            <RootStack.Screen name={SINGLE_DECK_VIEW} 
+              component={SingleDeckView}
+              options={{
+          headerTitle: null}}
             />
-            <RootStack.Screen name={SINGLE_DECK_VIEW} component={SingleDeckView}/>
             <RootStack.Screen name={NEW_QUESTION_VIEW} component={NewQuestionView}/>
             <RootStack.Screen name={QUIZ_VIEW} component={QuizView}/>
           </RootStack.Navigator>
