@@ -15,6 +15,8 @@
   </a>
 </p>
 
+![](./imgs/screen1.png) 
+
 ## Summary
 
 Built for Udacity's Final Project.   This mobile-flashcards app lets create
