@@ -15,7 +15,7 @@
   </a>
 </p>
 
-![](./imgs/screen1.png) 
+![](./imgs/screen1.png | width=100) 
 
 ## Summary
 
