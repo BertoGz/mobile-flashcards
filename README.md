@@ -16,10 +16,6 @@
 </p>
 
 
-<img src="./imgs/screen1.png" alt="screenshot1" width="175"/>
-<img src="./imgs/screen2.png" alt="screenshot2" width="175"/>
-<img src="./imgs/screen3.png" alt="screenshot3" width="175"/>
-<img src="./imgs/screen4.png" alt="screenshot4" width="175"/>
 ## Summary
 
 Built for Udacity's Final Project.   This mobile-flashcards app lets create
@@ -44,3 +40,9 @@ Run `yarn start` to start the bundler.
 This project was developed for IOS in mind and has only been tested on an
 IOS SIMULATOR
 
+### screenshots
+
+<img src="./imgs/screen1.png" alt="screenshot1" width="175"/>
+<img src="./imgs/screen2.png" alt="screenshot2" width="175"/>
+<img src="./imgs/screen3.png" alt="screenshot3" width="175"/>
+<img src="./imgs/screen4.png" alt="screenshot4" width="175"/>
