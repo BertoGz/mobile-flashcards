@@ -37,8 +37,9 @@ Run `yarn start` to start the bundler.
 
 ### Prerequisites
 
-This project was developed for IOS in mind and has only been tested on an
-IOS SIMULATOR
+This project was developed with Expo for IOS and has only been tested on an
+IOS SIMULATOR. Download the expo app to use on phone, or Xcode to use with 
+the simulator
 
 ### screenshots
 
