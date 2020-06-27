@@ -15,8 +15,8 @@
   </a>
 </p>
 
-![](./imgs/screen1.png|width=100) 
 
+<img src="./imgs/screen1.png" alt="screenshot" width="200"/>
 ## Summary
 
 Built for Udacity's Final Project.   This mobile-flashcards app lets create
